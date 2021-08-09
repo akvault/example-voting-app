@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  namespace: vote
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    nginx.ingress.kubernetes.io/affinity: cookie
+    external-dns.alpha.kubernetes.io/hostname: result.youlearn.link
+    nginx.ingress.kubernetes.io/affinity-mode: persistent
+  name: result
+spec:
+  rules:
+  - host: result.youlearn.link
+    http:
+      paths: 
+      - backend:
+          serviceName: result
+          servicePort: 5001
+        path: /*
