@@ -1,0 +1,21 @@
+releases:
+  - name: postgres
+    chart: ./charts/postgres
+    values:
+      - ./values/postgres.yaml
+  - name: redis
+    chart: ./charts/redis
+    values:
+      - ./values/redis.yaml
+  - name: vote
+    chart: ./charts/vote
+    values:
+      - ./values/vote.yaml
+  - name: result
+    chart: ./charts/result
+    values:
+      - ./values/result.yaml
+  - name: worker
+    chart: ./charts/worker
+    values:
+      - ./values/worker.yaml

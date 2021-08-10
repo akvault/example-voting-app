@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.postgres.group }}
+  labels:
+    app: {{ .Values.postgres.group }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: {{ .Values.postgres.group }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.postgres.group }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: {{ .Values.postgres.group }}
+              containerPort: {{ .Values.postgres.container_port }}
+      volumeMounts:
+        - mountPath: {{ .Values.postgres.volume.mountPath }} 
+          name: {{ .Values.postgres.volume.name }}
+      volumes:
+      - name: {{ .Values.postgres.volume.name }}
+        emptyDir: {} 
