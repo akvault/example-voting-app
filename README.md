@@ -7,6 +7,7 @@ A simple distributed application running across multiple Docker containers.
 Us helmfile to deploy on EKS
 
 ```cd helm ```
+
 ```helmfile sync```
 
 
