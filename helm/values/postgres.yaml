@@ -1,0 +1,7 @@
+config:
+  name: postgres-config
+  data: 
+  - key: POSTGRES_USER
+    value: postgres
+  - key: POSTGRES_PASSWORD
+    value: postgres
