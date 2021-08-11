@@ -1,0 +1,36 @@
+# Default values for postgres.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+postgres:
+  name: postgres
+  group: db
+  container_port: 5432
+  volume:
+    name: db-data
+    mountPath: /var/lib/postgresql/data
+  
+replicaCount: 1
+image:
+  repository: postgres
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "9.4"
+
+
+service:
+  type: ClusterIP
+  port: 5432
+  name: db-service
+
+config:
+  name: postgres-config
+  data: 
+      - key: key
+        value: value
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 2
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.redis.name }}
+  labels:
+    app: {{ .Values.redis.group }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: {{ .Values.redis.group }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.redis.group }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: {{ .Values.redis.name }}
+              containerPort: {{ .Values.redis.container_port }}
+          volumeMounts:
+            - mountPath: {{ .Values.redis.volume.mountpath }} 
+              name: {{ .Values.redis.volume.name }}
+      volumes:
+      - name: {{ .Values.redis.volume.name }}
+        emptyDir: {} 
